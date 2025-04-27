@@ -40,6 +40,13 @@ class CreateUserDto {
 }
 
 class userResponseDto {
+
+    @ApiProperty({
+        example: '1',
+        description: 'ID of the user',
+    })
+    id: string;
+
     @ApiProperty({
         example: 'John',
         description: 'First name of the user',

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateUserDto, updateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, updateUserDto, userResponseDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
 
 /**
@@ -22,7 +22,7 @@ export class UserService {
     async getAllUsers() {
         const users = await this.prisma.user.findMany();
         return {
-            users,
+            users: users.map(user => this.mapToUserResponse(user)),
             count: users.length,
             "message": "Users fetched successfully",
         }
@@ -41,7 +41,7 @@ export class UserService {
                 where: { id },
             });
             return {
-                user,
+                user: this.mapToUserResponse(user),
                 "message": "User fetched successfully",
             }
         } catch (error) {
@@ -61,7 +61,7 @@ export class UserService {
                 where: { email },
             });
             return {
-                user,
+                user: this.mapToUserResponse(user),
                 "message": "User fetched successfully",
             }
         }
@@ -82,7 +82,7 @@ export class UserService {
                 where: { username },
             });
             return {
-                user,
+                user: this.mapToUserResponse(user),
                 "message": "User fetched successfully",
             }
         } catch (error) {
@@ -104,7 +104,7 @@ export class UserService {
                 data,
             });
             return {
-                user,
+                user: this.mapToUserResponse(user),
                 "message": "User updated successfully",
             }
         } catch (error) {
@@ -128,7 +128,7 @@ export class UserService {
                 },
             });
             return {
-                user,
+                user: this.mapToUserResponse(user),
                 "message": "User created successfully",
             }
         } catch (error) {
@@ -138,5 +138,15 @@ export class UserService {
             console.log(error);
             return new InternalServerErrorException("Error creating user");
         }
+    }
+
+    private mapToUserResponse(user: any): userResponseDto {
+        return {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            email: user.email,
+        };
     }
 }
