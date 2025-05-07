@@ -70,6 +70,18 @@ class userResponseDto {
         description: 'Email of the user',
     })
     email: string;
+
+    @ApiProperty({
+        example: '2023-10-01T00:00:00.000Z',
+        description: 'User created date',
+    })
+    createdAt: Date;
+
+    @ApiProperty({
+        example: '2023-10-01T00:00:00.000Z',
+        description: 'User updated date',
+    })
+    updatedAt: Date;
 }
 
 class updateUserDto {

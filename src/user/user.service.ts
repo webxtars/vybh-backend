@@ -140,13 +140,15 @@ export class UserService {
         }
     }
 
-    private mapToUserResponse(user: any): userResponseDto {
+    public mapToUserResponse(user: any): userResponseDto {
         return {
             id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             username: user.username,
             email: user.email,
+            createdAt: user.createdAt,
+            updatedAt: user.updatedAt,
         };
     }
 }
