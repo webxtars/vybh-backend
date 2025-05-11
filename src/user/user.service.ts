@@ -2,6 +2,7 @@ import { BadRequestException, Injectable, InternalServerErrorException, NotFound
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateUserDto, updateUserDto, userResponseDto } from './dto/create-user.dto';
 import * as bcrypt from 'bcryptjs';
+import { EmailService } from 'src/email/email.service';
 
 /**
  * UserService is responsible for handling user-related operations.
@@ -13,6 +14,7 @@ import * as bcrypt from 'bcryptjs';
 export class UserService {
     constructor(
         private readonly prisma: PrismaService,
+        private readonly emailService: EmailService
     ) {}
 
     /**
@@ -127,6 +129,12 @@ export class UserService {
                     password: hashedpassword,
                 },
             });
+            await this.emailService.sendViaBrevo(
+                user.email,
+            "Test Email",
+            "Test Email",
+            "Test Email"
+            );
             return {
                 user: this.mapToUserResponse(user),
                 "message": "User created successfully",

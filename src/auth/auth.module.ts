@@ -8,10 +8,11 @@ import { JwtStrategy } from './strategies/jwt-strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { UserService } from 'src/user/user.service';
 import { RefreshJwtStrategy } from './strategies/refresh-token.guard';
+import { EmailService } from 'src/email/email.service';
 
 @Module({
     controllers: [AuthController],
-    providers: [AuthService, PrismaService, LocalStrategy, RefreshJwtStrategy, JwtStrategy, ConfigService, UserService],
+    providers: [AuthService, PrismaService, LocalStrategy, RefreshJwtStrategy, JwtStrategy, ConfigService, UserService, EmailService],
 	imports: [
 		JwtModule.register({
 			secret: process.env.JWT_SECRET,
